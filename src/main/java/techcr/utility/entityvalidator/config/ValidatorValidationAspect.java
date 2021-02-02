@@ -26,7 +26,7 @@ import techcr.utility.entityvalidator.validator.Validator;
 @Aspect
 public class ValidatorValidationAspect {
 
-    @Around(value = "@annotation(techcr.utility.techcr.utility.entityvalidator.config.EntityValidatable)")
+    @Around(value = "@annotation(techcr.utility.entityvalidator.config.EntityValidatable)")
     public Object validateSvcEntry(ProceedingJoinPoint joinPoint) throws Throwable {
         Method method = MethodSignature.class.cast(joinPoint.getSignature()).getMethod();
         EntityValidatable validatable = method.getAnnotation(EntityValidatable.class);
