@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidatorValidationAspect.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">entity-validator</a> &gt; <a href="index.source.html" class="el_package">techcr.utility.entityvalidator.config</a> &gt; <span class="el_source">ValidatorValidationAspect.java</span></div><h1>ValidatorValidationAspect.java</h1><pre class="source lang-java linenums">package techcr.utility.entityvalidator.config;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
+
+import techcr.utility.entityvalidator.config.EntityValidatable;
+import techcr.utility.entityvalidator.config.ErrorMessageWrapper;
+import techcr.utility.entityvalidator.config.ValidatorEntity;
+import techcr.utility.entityvalidator.config.ValidatorResult;
+
+import techcr.utility.entityvalidator.exception.UnsupportedFieldException;
+import techcr.utility.entityvalidator.validator.ValidationError;
+import techcr.utility.entityvalidator.validator.Validator;
+
+@Aspect
+<span class="nc" id="L27">public class ValidatorValidationAspect {</span>
+
+    @Around(value = &quot;@annotation(techcr.utility.techcr.utility.entityvalidator.config.EntityValidatable)&quot;)
+    public Object validateSvcEntry(ProceedingJoinPoint joinPoint) throws Throwable {
+<span class="nc" id="L31">        Method method = MethodSignature.class.cast(joinPoint.getSignature()).getMethod();</span>
+<span class="nc" id="L32">        EntityValidatable validatable = method.getAnnotation(EntityValidatable.class);</span>
+
+<span class="nc" id="L34">        Object[] args = joinPoint.getArgs();</span>
+<span class="nc" id="L35">        Annotation[][] parameterAnnotations = method.getParameterAnnotations();</span>
+<span class="nc" id="L36">        Map&lt;String, List&lt;ValidationError&gt;&gt; errorMap = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L37">        Map&lt;String, ErrorMessageWrapper&gt; errorMessageWrapperMap = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L38">        Validator validator = new Validator();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        for (int i = 0; i &lt; parameterAnnotations.length; i++) {</span>
+<span class="nc" id="L40">            Annotation[] annotations = parameterAnnotations[i];</span>
+<span class="nc" id="L41">            Optional&lt;Annotation&gt; optionalValidatorEntity = Arrays.stream(annotations)</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">                .filter(annotation -&gt; annotation.annotationType() == ValidatorEntity.class).findAny();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (optionalValidatorEntity.isPresent()) {</span>
+<span class="nc" id="L44">                ValidatorEntity validatorEntity = (ValidatorEntity) optionalValidatorEntity.get();</span>
+<span class="nc" id="L45">                Object parameter = args[i];</span>
+                try {
+<span class="nc" id="L47">                    validator.validate(parameter);</span>
+<span class="nc" id="L48">                    List&lt;ValidationError&gt; errors = validator.getValidationErrors();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">                    if (!errors.isEmpty()) {</span>
+<span class="nc" id="L50">                        errorMap.put(validatorEntity.value(), errors);</span>
+                    }
+
+<span class="nc" id="L53">                } catch (IllegalAccessException | UnsupportedFieldException e) {</span>
+<span class="nc" id="L54">                    e.printStackTrace();</span>
+                    //                LOGGER.error(&quot;Validation Lib throw an exception &quot; + e.getMessage(), e);
+<span class="nc" id="L56">                }</span>
+<span class="nc" id="L57">            } else {</span>
+<span class="nc" id="L58">                Optional&lt;Annotation&gt; optionalErrorMessage = Arrays.stream(annotations)</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                    .filter(annotation -&gt; annotation.annotationType() == ValidatorResult.class).findAny();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                if (optionalErrorMessage.isPresent()) {</span>
+<span class="nc" id="L61">                    ValidatorResult validatorMessage = (ValidatorResult) optionalErrorMessage.get();</span>
+<span class="nc" id="L62">                    ErrorMessageWrapper wrapper = new ErrorMessageWrapper(validatorMessage.value());</span>
+<span class="nc" id="L63">                    args[i] = wrapper;</span>
+<span class="nc" id="L64">                    joinPoint.getArgs();</span>
+                    //method.pa
+<span class="nc" id="L66">                    errorMessageWrapperMap.put(validatorMessage.value(), wrapper);</span>
+                }
+            }
+        }
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (!errorMap.isEmpty()) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            for (Map.Entry&lt;String, ErrorMessageWrapper&gt; entrySet : errorMessageWrapperMap.entrySet()) {</span>
+<span class="nc" id="L73">                String key = entrySet.getKey();</span>
+<span class="nc" id="L74">                entrySet.getValue().validationErrorList = errorMap.get(key);</span>
+<span class="nc" id="L75">            }</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            if (validatable.enableStorage()) {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                for (Map.Entry&lt;String, List&lt;ValidationError&gt;&gt; errorEntry : errorMap.entrySet()) {</span>
+<span class="nc" id="L78">                    ErrorMessageStorage.addErrorMessageWrapper(errorEntry.getKey(), errorEntry.getValue());</span>
+<span class="nc" id="L79">                }</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            } else if (validatable.errorHandler() != EntityValidationErrorHandler.class){</span>
+<span class="nc" id="L81">                EntityValidationErrorHandler errorHandler = validatable.errorHandler().getDeclaredConstructor()</span>
+<span class="nc" id="L82">                    .newInstance();</span>
+<span class="nc" id="L83">                List&lt;ErrorMessageWrapper&gt; wrappers = errorMap.entrySet().stream()</span>
+<span class="nc" id="L84">                    .map(entry -&gt; new ErrorMessageWrapper(entry.getKey(), entry.getValue()))</span>
+<span class="nc" id="L85">                    .collect(Collectors.toList());</span>
+<span class="nc" id="L86">                errorHandler.handleValidationErrors(wrappers);</span>
+            }
+        }
+
+        try {
+<span class="nc" id="L91">            return joinPoint.proceed(args);</span>
+        } finally {
+<span class="nc" id="L93">            ErrorMessageStorage.clearErrorMessages();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

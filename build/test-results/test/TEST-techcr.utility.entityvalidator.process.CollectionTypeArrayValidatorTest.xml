@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="techcr.utility.entityvalidator.process.CollectionTypeArrayValidatorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-02-02T13:09:25" hostname="NWLMAC0141" time="0.188">
+  <properties/>
+  <testcase name="arrayWithInternalValidation" classname="techcr.utility.entityvalidator.process.CollectionTypeArrayValidatorTest" time="0.185"/>
+  <testcase name="arrayWithoutInternalValidation" classname="techcr.utility.entityvalidator.process.CollectionTypeArrayValidatorTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
