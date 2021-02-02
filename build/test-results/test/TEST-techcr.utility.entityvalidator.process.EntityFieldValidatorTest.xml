@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="techcr.utility.entityvalidator.process.EntityFieldValidatorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-02-02T13:09:26" hostname="NWLMAC0141" time="0.164">
+  <properties/>
+  <testcase name="validateBean" classname="techcr.utility.entityvalidator.process.EntityFieldValidatorTest" time="0.163"/>
+  <testcase name="validateBeanAsField" classname="techcr.utility.entityvalidator.process.EntityFieldValidatorTest" time="0.001"/>
+  <system-out><![CDATA[4
+2
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
