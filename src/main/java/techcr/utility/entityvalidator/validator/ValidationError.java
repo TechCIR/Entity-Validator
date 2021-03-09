@@ -2,6 +2,8 @@ package techcr.utility.entityvalidator.validator;
 
 import java.util.Objects;
 
+import techcr.utility.entityvalidator.type.ValidatorUtil;
+
 public class ValidationError {
 
     private String fieldName;
@@ -9,12 +11,12 @@ public class ValidationError {
     private String actualValue;
 
     public ValidationError(String fieldName) {
-        this.fieldName = fieldName;
+        this.fieldName = ValidatorUtil.resolveMessage(fieldName);
     }
 
     public ValidationError(String fieldName, String errorDescription, String actualValue) {
-        this.fieldName = fieldName;
-        this.errorDescription = errorDescription;
+        this.fieldName = ValidatorUtil.resolveMessage(fieldName);
+        this.errorDescription = ValidatorUtil.resolveMessage(errorDescription);
         this.actualValue = actualValue;
     }
 
@@ -27,7 +29,7 @@ public class ValidationError {
     }
 
     public void setErrorDescription(String errorDescription) {
-        this.errorDescription = errorDescription;
+        this.errorDescription = ValidatorUtil.resolveMessage(errorDescription);
     }
 
     public String getActualValue() {
@@ -39,17 +41,23 @@ public class ValidationError {
     }
 
     public String getValidationErrorDescription() {
-        return getErrorDescription() + " value:" + getActualValue();
+        return getErrorDescription()
+            + " " + ValidatorUtil.resolveValueMessage() + ":"
+            + getActualValue();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ValidationError that = (ValidationError) o;
         return Objects.equals(fieldName, that.fieldName) &&
-                Objects.equals(errorDescription, that.errorDescription) &&
-                Objects.equals(actualValue, that.actualValue);
+            Objects.equals(errorDescription, that.errorDescription) &&
+            Objects.equals(actualValue, that.actualValue);
     }
 
     @Override
@@ -60,7 +68,9 @@ public class ValidationError {
 
     @Override
     public String toString() {
-        return getFieldName() + " : " + getErrorDescription() + " value:" + getActualValue();
+        return getFieldName() + " : " + getErrorDescription()
+            + " " + ValidatorUtil.resolveValueMessage() + ":"
+            + getActualValue();
     }
 
     private String nvl(String code) {

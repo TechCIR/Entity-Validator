@@ -14,17 +14,21 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 
-import techcr.utility.entityvalidator.config.EntityValidatable;
-import techcr.utility.entityvalidator.config.ErrorMessageWrapper;
-import techcr.utility.entityvalidator.config.ValidatorEntity;
-import techcr.utility.entityvalidator.config.ValidatorResult;
-
 import techcr.utility.entityvalidator.exception.UnsupportedFieldException;
 import techcr.utility.entityvalidator.validator.ValidationError;
 import techcr.utility.entityvalidator.validator.Validator;
 
 @Aspect
 public class ValidatorValidationAspect {
+
+    private Validator customValidator;
+
+    public ValidatorValidationAspect() {
+    }
+
+    public ValidatorValidationAspect(Validator customValidator) {
+        this.customValidator = customValidator;
+    }
 
     @Around(value = "@annotation(techcr.utility.entityvalidator.config.EntityValidatable)")
     public Object validateSvcEntry(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -35,7 +39,7 @@ public class ValidatorValidationAspect {
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
         Map<String, List<ValidationError>> errorMap = new HashMap<>();
         Map<String, ErrorMessageWrapper> errorMessageWrapperMap = new HashMap<>();
-        Validator validator = new Validator();
+        Validator validator = customValidator != null ? customValidator : validatable.validator().newInstance();
         for (int i = 0; i < parameterAnnotations.length; i++) {
             Annotation[] annotations = parameterAnnotations[i];
             Optional<Annotation> optionalValidatorEntity = Arrays.stream(annotations)
@@ -77,7 +81,7 @@ public class ValidatorValidationAspect {
                 for (Map.Entry<String, List<ValidationError>> errorEntry : errorMap.entrySet()) {
                     ErrorMessageStorage.addErrorMessageWrapper(errorEntry.getKey(), errorEntry.getValue());
                 }
-            } else if (validatable.errorHandler() != EntityValidationErrorHandler.class){
+            } else if (validatable.errorHandler() != EntityValidationErrorHandler.class) {
                 EntityValidationErrorHandler errorHandler = validatable.errorHandler().getDeclaredConstructor()
                     .newInstance();
                 List<ErrorMessageWrapper> wrappers = errorMap.entrySet().stream()

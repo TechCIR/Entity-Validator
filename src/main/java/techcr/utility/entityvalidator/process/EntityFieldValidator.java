@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import techcr.utility.entityvalidator.exception.UnsupportedFieldException;
+import techcr.utility.entityvalidator.type.ValidatorUtil;
 import techcr.utility.entityvalidator.type.notation.ConditionValidation;
 import techcr.utility.entityvalidator.type.notation.ExcludeParent;
 import techcr.utility.entityvalidator.type.notation.ValidatorFieldDescription;
@@ -24,10 +25,11 @@ public class EntityFieldValidator<T> implements FieldValidator {
     public EntityFieldValidator(Field field, Object parentEntity) throws IllegalAccessException {
         field.setAccessible(true);
         this.bean = (T) field.get(parentEntity);
-        if (field.isAnnotationPresent(ValidatorFieldDescription.class)) {
+        /*if (field.isAnnotationPresent(ValidatorFieldDescription.class)) {
             ValidatorFieldDescription description = field.getAnnotation(ValidatorFieldDescription.class);
             this.fieldName = description.fieldDesc();
-        }
+        }*/
+        this.fieldName = ValidatorUtil.getFieldName(field);
     }
 
     @Override
