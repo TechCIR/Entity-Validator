@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import techcr.utility.entityvalidator.type.LengthCriteriaType;
+import techcr.utility.entityvalidator.type.NumberCriteriaType;
 
 /**
  * Check for number format.
@@ -15,6 +15,6 @@ import techcr.utility.entityvalidator.type.LengthCriteriaType;
 @Target(ElementType.FIELD)
 public @interface NumberFormat {
     String numberFormat();
-    LengthCriteriaType lengthCriteria() default LengthCriteriaType.EQAUL;
+    NumberCriteriaType lengthCriteria() default NumberCriteriaType.EQAUL;
     String errorDesc() default "Invalid Number Format";
 }

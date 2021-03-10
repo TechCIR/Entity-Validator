@@ -1,6 +1,6 @@
 package techcr.utility.entityvalidator.type;
 
-public enum LengthCriteriaType {
+public enum NumberCriteriaType {
     EQAUL {
         @Override
         public boolean isValid(Number thresholdLength, Number actualLength) {
