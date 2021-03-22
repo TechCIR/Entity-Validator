@@ -63,7 +63,7 @@ Also you can customise your validation messages.
 Entity Validator support message resolver. 
 through dependant application, can provide MessageResolver which wrap Locale resolver
 ```
-[MessageResolver](src/main/java/shipxpress/utility/entityvalidator/config/MessageResolver.java)
+[MessageResolver](src/main/java/techcr/utility/entityvalidator/config/MessageResolver.java)
 
 It supports for both 
 - FieldName
