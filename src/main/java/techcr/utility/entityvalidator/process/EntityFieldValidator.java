@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import techcr.utility.entityvalidator.exception.UnsupportedFieldException;
+import techcr.utility.entityvalidator.type.ValidatorUtil;
 import techcr.utility.entityvalidator.type.notation.ConditionValidation;
+import techcr.utility.entityvalidator.type.notation.CustomEntityValidate;
 import techcr.utility.entityvalidator.type.notation.ExcludeParent;
 import techcr.utility.entityvalidator.type.notation.ValidatorFieldDescription;
 import techcr.utility.entityvalidator.validator.ValidationError;
@@ -24,10 +26,11 @@ public class EntityFieldValidator<T> implements FieldValidator {
     public EntityFieldValidator(Field field, Object parentEntity) throws IllegalAccessException {
         field.setAccessible(true);
         this.bean = (T) field.get(parentEntity);
-        if (field.isAnnotationPresent(ValidatorFieldDescription.class)) {
+        /*if (field.isAnnotationPresent(ValidatorFieldDescription.class)) {
             ValidatorFieldDescription description = field.getAnnotation(ValidatorFieldDescription.class);
             this.fieldName = description.fieldDesc();
-        }
+        }*/
+        this.fieldName = ValidatorUtil.getFieldName(field);
     }
 
     @Override
@@ -47,6 +50,16 @@ public class EntityFieldValidator<T> implements FieldValidator {
                 conditionValidator.validate(errors);
             }
 
+            if (bean.getClass().isAnnotationPresent(CustomEntityValidate.class)) {
+                CustomEntityValidate customEntityValidate = bean.getClass().getAnnotation(CustomEntityValidate.class);
+                Class<? extends CustomEntityValidator> customValidator = customEntityValidate.validator();
+                try {
+                    customValidator.newInstance().validate(bean, errors);
+                } catch (InstantiationException e) {
+                    throw new UnsupportedFieldException("Custom Validation Bean Creation Error: "
+                        + bean.getClass().getName());
+                }
+            }
             FieldValidatorResolver validatorResolver = new FieldValidatorResolver();
             for (Field field : fields) {
                 List<FieldValidator> validators = validatorResolver.getValidators(field, bean);

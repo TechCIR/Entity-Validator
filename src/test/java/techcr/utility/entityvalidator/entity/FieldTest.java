@@ -3,7 +3,7 @@ package techcr.utility.entityvalidator.entity;
 import java.util.List;
 import java.util.Set;
 
-import techcr.utility.entityvalidator.type.LengthCriteriaType;
+import techcr.utility.entityvalidator.type.NumberCriteriaType;
 import techcr.utility.entityvalidator.type.NumberEqualValidator;
 import techcr.utility.entityvalidator.type.notation.ArrayType;
 import techcr.utility.entityvalidator.type.notation.CollectionType;
@@ -16,6 +16,8 @@ import techcr.utility.entityvalidator.type.notation.EnumType;
 import techcr.utility.entityvalidator.type.notation.Length;
 import techcr.utility.entityvalidator.type.notation.LengthBetween;
 import techcr.utility.entityvalidator.type.notation.Mandatory;
+import techcr.utility.entityvalidator.type.notation.NotEmpty;
+import techcr.utility.entityvalidator.type.notation.NumberField;
 import techcr.utility.entityvalidator.type.notation.NumberFormat;
 import techcr.utility.entityvalidator.type.notation.Range;
 import techcr.utility.entityvalidator.type.notation.Regex;
@@ -33,32 +35,40 @@ public class FieldTest {
     @Mandatory(errorDesc = "Address Mandatory")
     private String address;
 
+    @NotEmpty
+    private String notEmptyString;
+
+    @NumberField(number = "10", criteriaType = NumberCriteriaType.GREATER_THAN_OR_EQUAL)
+    private Long greaterThanOrEqualNumberLong;
+    @NumberField(number = "20.5", criteriaType = NumberCriteriaType.LESS_THAN)
+    private Double lessThanNumberDouble;
+
     @ValidatorFieldDescription(fieldDesc = "Equal Prop")
     @Length(length = 2)
     private String equalProperty;
     @Length(length = 2)
     private long longProperty;
-    @Length(length = 4, lengthCriteriaType = LengthCriteriaType.GREATER_THAN_OR_EQUAL)
+    @Length(length = 4, lengthCriteriaType = NumberCriteriaType.GREATER_THAN_OR_EQUAL)
     private String gtoqProperty;
-    @Length(length = 4, lengthCriteriaType = LengthCriteriaType.GREATER_THAN)
+    @Length(length = 4, lengthCriteriaType = NumberCriteriaType.GREATER_THAN)
     private String gtProperty;
-    @Length(length = 4, lengthCriteriaType = LengthCriteriaType.LESS_THAN_OR_EQUAL)
+    @Length(length = 4, lengthCriteriaType = NumberCriteriaType.LESS_THAN_OR_EQUAL)
     private String ltoqProperty;
-    @Length(length = 4, lengthCriteriaType = LengthCriteriaType.LESS_THAN)
+    @Length(length = 4, lengthCriteriaType = NumberCriteriaType.LESS_THAN)
     private String ltProperty;
     @Length(length = 6)
     private Double doubleValiateProperty;
 
     @ValidatorFieldDescription(fieldDesc = "Average")
-    @NumberFormat(numberFormat = "##.###", lengthCriteria = LengthCriteriaType.EQAUL)
+    @NumberFormat(numberFormat = "##.###", lengthCriteria = NumberCriteriaType.EQAUL)
     private Number averageScore;
 
     @ValidatorFieldDescription(fieldDesc = "Between length")
-    @LengthBetween(minLength = 5, maxLength = 10, minLengthCriteria = LengthCriteriaType.GREATER_THAN_OR_EQUAL,
-            maxLengthCriteria = LengthCriteriaType.LESS_THAN_OR_EQUAL)
+    @LengthBetween(minLength = 5, maxLength = 10, minLengthCriteria = NumberCriteriaType.GREATER_THAN_OR_EQUAL,
+            maxLengthCriteria = NumberCriteriaType.LESS_THAN_OR_EQUAL)
     private String lenthPropery;
-    @LengthBetween(minLength = 5, maxLength = 10, minLengthCriteria = LengthCriteriaType.GREATER_THAN_OR_EQUAL,
-            maxLengthCriteria = LengthCriteriaType.LESS_THAN_OR_EQUAL)
+    @LengthBetween(minLength = 5, maxLength = 10, minLengthCriteria = NumberCriteriaType.GREATER_THAN_OR_EQUAL,
+            maxLengthCriteria = NumberCriteriaType.LESS_THAN_OR_EQUAL)
     private Long numberLengthProperty;
 
     @ValidatorFieldDescription(fieldDesc = "Number Constant")
@@ -227,6 +237,30 @@ public class FieldTest {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getNotEmptyString() {
+        return notEmptyString;
+    }
+
+    public void setNotEmptyString(String notEmptyString) {
+        this.notEmptyString = notEmptyString;
+    }
+
+    public Long getGreaterThanOrEqualNumberLong() {
+        return greaterThanOrEqualNumberLong;
+    }
+
+    public void setGreaterThanOrEqualNumberLong(Long greaterThanOrEqualNumberLong) {
+        this.greaterThanOrEqualNumberLong = greaterThanOrEqualNumberLong;
+    }
+
+    public Double getLessThanNumberDouble() {
+        return lessThanNumberDouble;
+    }
+
+    public void setLessThanNumberDouble(Double lessThanNumberDouble) {
+        this.lessThanNumberDouble = lessThanNumberDouble;
     }
 
     public String getEqualProperty() {

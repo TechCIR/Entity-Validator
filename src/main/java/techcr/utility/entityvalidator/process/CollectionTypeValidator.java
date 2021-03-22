@@ -8,6 +8,7 @@ import java.util.List;
 
 import techcr.utility.entityvalidator.exception.UnsupportedFieldException;
 import techcr.utility.entityvalidator.type.CustomCollection;
+import techcr.utility.entityvalidator.type.ValidatorUtil;
 import techcr.utility.entityvalidator.type.notation.ArrayType;
 import techcr.utility.entityvalidator.type.notation.CollectionType;
 import techcr.utility.entityvalidator.type.notation.CustomCollectionType;
@@ -29,7 +30,7 @@ public class CollectionTypeValidator implements FieldValidator {
         validateInnerEntity = arrayType.validateInnerEntity();
         errorDescription = arrayType.errorDecs();
         field.setAccessible(true);
-        fieldName = field.getName();
+        fieldName = ValidatorUtil.getFieldName(field);
         Object array = field.get(entity);
         if (null != array) {
             int length = Array.getLength(array);
@@ -48,7 +49,7 @@ public class CollectionTypeValidator implements FieldValidator {
         validateInnerEntity = collectionType.validateInnerEntity();
         errorDescription = collectionType.errorDecs();
         field.setAccessible(true);
-        fieldName = field.getName();
+        fieldName = ValidatorUtil.getFieldName(field);
         entities = (Collection) field.get(entity);
     }
 
@@ -59,7 +60,7 @@ public class CollectionTypeValidator implements FieldValidator {
         validateInnerEntity = customCollectionType.validateInnerEntity();
         errorDescription = customCollectionType.errorDecs();
         field.setAccessible(true);
-        fieldName = field.getName();
+        fieldName = ValidatorUtil.getFieldName(field);
         CustomCollection customCollection = (CustomCollection) field.get(entity);
         if (null != customCollection) {
             entities = customCollection.get();

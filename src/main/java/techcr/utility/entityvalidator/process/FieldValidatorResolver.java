@@ -16,6 +16,8 @@ import techcr.utility.entityvalidator.type.notation.EnumType;
 import techcr.utility.entityvalidator.type.notation.Length;
 import techcr.utility.entityvalidator.type.notation.LengthBetween;
 import techcr.utility.entityvalidator.type.notation.Mandatory;
+import techcr.utility.entityvalidator.type.notation.NotEmpty;
+import techcr.utility.entityvalidator.type.notation.NumberField;
 import techcr.utility.entityvalidator.type.notation.NumberFormat;
 import techcr.utility.entityvalidator.type.notation.Range;
 import techcr.utility.entityvalidator.type.notation.Regex;
@@ -31,6 +33,12 @@ public class FieldValidatorResolver {
         } else {
             if (field.isAnnotationPresent(Mandatory.class)) {
                 validators.add(new FieldMandatoryValidator(field, entity));
+            }
+            if (field.isAnnotationPresent(NotEmpty.class)) {
+                validators.add(new FieldNotEmptyValidator(field, entity));
+            }
+            if (field.isAnnotationPresent(NumberField.class)) {
+                validators.add(new NumberFieldValidator(field, entity));
             }
             if (field.isAnnotationPresent(Length.class)) {
                 validators.add(new FieldLengthValidator(field, entity));

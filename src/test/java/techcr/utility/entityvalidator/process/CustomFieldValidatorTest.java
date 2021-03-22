@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import techcr.utility.entityvalidator.entity.User;
+import techcr.utility.entityvalidator.validator.DefaultValidator;
 import techcr.utility.entityvalidator.validator.ValidationError;
 import techcr.utility.entityvalidator.validator.Validator;
 
@@ -20,7 +21,7 @@ public class CustomFieldValidatorTest {
         user.setAge(10);
         user.setCustomValidateTest(null);
 
-        Validator<User> validator = new Validator<>();
+        Validator<User> validator = new DefaultValidator<>();
         validator.validate(user);
         List<ValidationError> errors = validator.getValidationErrors();
         Assert.assertThat(errors, IsCollectionWithSize.hasSize(1));

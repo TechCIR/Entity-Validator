@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import techcr.utility.entityvalidator.type.LengthCriteriaType;
+import techcr.utility.entityvalidator.type.NumberCriteriaType;
 
 /**
  * Length validation.
@@ -16,7 +16,7 @@ import techcr.utility.entityvalidator.type.LengthCriteriaType;
 @Target(ElementType.FIELD)
 public @interface Length {
     int length();
-    LengthCriteriaType lengthCriteriaType() default LengthCriteriaType.EQAUL;
+    NumberCriteriaType lengthCriteriaType() default NumberCriteriaType.EQAUL;
     String errorDesc() default "Invalid Length";
 
 }

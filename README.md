@@ -29,6 +29,7 @@ Also you can customise your validation messages.
 ## Spring AOP Configuration: 
 
 ### Import Aspect to Spring Context. 
+- [Configure in xml](resource/XMl_configeration.png) ![Import_as_xml_bean](resource/XMl_configeration.png)
 - [By Creating Bean](resource/Imprt_As_Bean.png) ![Import_as_bean](resource/Imprt_As_Bean.png)
 
 ### Validation Configuration
@@ -57,4 +58,23 @@ Also you can customise your validation messages.
 #### As Custom Error Handler
 - Provide implementation of [EntityValidationErrorHandler] through EntityValidatable annotation. 
 
+### ii8 Support
+```bash
+Entity Validator support message resolver. 
+through dependant application, can provide MessageResolver which wrap Locale resolver
+```
+[MessageResolver](src/main/java/techcr/utility/entityvalidator/config/MessageResolver.java)
 
+It supports for both 
+- FieldName
+- ErrorDescription
+
+Annotation Values should start with **KEY::**
+
+Ex: @Mandatory(errorDesc = "KEY::MANDATORY")
+
+```bash
+MessageResolver can configure via ValidatorUtil. 
+ValidatorUtil#configureResolver method
+Ex: ValidatorUtil.configureResolver(String::toUpperCase);
+```

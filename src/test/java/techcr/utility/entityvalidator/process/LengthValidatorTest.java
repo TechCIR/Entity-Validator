@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import techcr.utility.entityvalidator.entity.FieldTest;
 import techcr.utility.entityvalidator.exception.UnsupportedFieldException;
-import techcr.utility.entityvalidator.type.LengthCriteriaType;
+import techcr.utility.entityvalidator.type.NumberCriteriaType;
 import techcr.utility.entityvalidator.validator.ValidationError;
 
 public class LengthValidatorTest {
@@ -38,7 +38,7 @@ public class LengthValidatorTest {
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
                 "errorDescription", Matchers.startsWith("Invalid Length"))));
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
-                "errorDescription", CoreMatchers.containsString(LengthCriteriaType.EQAUL.name()))));
+                "errorDescription", CoreMatchers.containsString(NumberCriteriaType.EQAUL.name()))));
 
         //With valid age
         fieldTest.setEqualProperty("12");
@@ -127,7 +127,7 @@ public class LengthValidatorTest {
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
                 "errorDescription", CoreMatchers.containsString("4"))));
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
-                "errorDescription", CoreMatchers.containsString(LengthCriteriaType.GREATER_THAN_OR_EQUAL.name()))));
+                "errorDescription", CoreMatchers.containsString(NumberCriteriaType.GREATER_THAN_OR_EQUAL.name()))));
 
 
         fieldTest.setGtoqProperty("1234");
@@ -165,7 +165,7 @@ public class LengthValidatorTest {
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
                 "errorDescription", CoreMatchers.containsString("4"))));
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
-                "errorDescription", CoreMatchers.containsString(LengthCriteriaType.GREATER_THAN.name()))));
+                "errorDescription", CoreMatchers.containsString(NumberCriteriaType.GREATER_THAN.name()))));
 
 
         fieldTest.setGtProperty("1234");
@@ -179,7 +179,7 @@ public class LengthValidatorTest {
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
                 "errorDescription", CoreMatchers.containsString("4"))));
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
-                "errorDescription", CoreMatchers.containsString(LengthCriteriaType.GREATER_THAN.name()))));
+                "errorDescription", CoreMatchers.containsString(NumberCriteriaType.GREATER_THAN.name()))));
 
         fieldTest.setGtProperty("123456");
         fieldLengthValidator = new FieldLengthValidator(salaryField, fieldTest);
@@ -210,7 +210,7 @@ public class LengthValidatorTest {
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
                 "errorDescription", CoreMatchers.containsString("4"))));
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
-                "errorDescription", CoreMatchers.containsString(LengthCriteriaType.LESS_THAN_OR_EQUAL.name()))));
+                "errorDescription", CoreMatchers.containsString(NumberCriteriaType.LESS_THAN_OR_EQUAL.name()))));
 
 
         fieldTest.setLtoqProperty("1234");
@@ -249,7 +249,7 @@ public class LengthValidatorTest {
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
                 "errorDescription", CoreMatchers.containsString("4"))));
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
-                "errorDescription", CoreMatchers.containsString(LengthCriteriaType.LESS_THAN.name()))));
+                "errorDescription", CoreMatchers.containsString(NumberCriteriaType.LESS_THAN.name()))));
 
 
         fieldTest.setLtProperty("1234");
@@ -263,7 +263,7 @@ public class LengthValidatorTest {
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
                 "errorDescription", CoreMatchers.containsString("4"))));
         Assert.assertThat(errors, CoreMatchers.hasItem(Matchers.<ValidationError>hasProperty(
-                "errorDescription", CoreMatchers.containsString(LengthCriteriaType.LESS_THAN.name()))));
+                "errorDescription", CoreMatchers.containsString(NumberCriteriaType.LESS_THAN.name()))));
 
         fieldTest.setLtProperty("123");
         fieldLengthValidator = new FieldLengthValidator(salaryField, fieldTest);
