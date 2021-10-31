@@ -11,16 +11,20 @@ import techcr.utility.entityvalidator.type.notation.ConditionValidation;
 import techcr.utility.entityvalidator.type.notation.Constant;
 import techcr.utility.entityvalidator.type.notation.CustomCollectionType;
 import techcr.utility.entityvalidator.type.notation.CustomValidate;
+import techcr.utility.entityvalidator.type.notation.DoubleValueIn;
 import techcr.utility.entityvalidator.type.notation.EntityField;
 import techcr.utility.entityvalidator.type.notation.EnumType;
+import techcr.utility.entityvalidator.type.notation.IntValueIn;
 import techcr.utility.entityvalidator.type.notation.Length;
 import techcr.utility.entityvalidator.type.notation.LengthBetween;
+import techcr.utility.entityvalidator.type.notation.LongValueIn;
 import techcr.utility.entityvalidator.type.notation.Mandatory;
 import techcr.utility.entityvalidator.type.notation.NotEmpty;
 import techcr.utility.entityvalidator.type.notation.NumberField;
 import techcr.utility.entityvalidator.type.notation.NumberFormat;
 import techcr.utility.entityvalidator.type.notation.Range;
 import techcr.utility.entityvalidator.type.notation.Regex;
+import techcr.utility.entityvalidator.type.notation.StringValueIn;
 
 
 public class FieldValidatorResolver {
@@ -63,6 +67,18 @@ public class FieldValidatorResolver {
             }
             if (field.isAnnotationPresent(EnumType.class)) {
                 validators.add(new EnumTypeValidator(field, entity));
+            }
+            if (field.isAnnotationPresent(StringValueIn.class)) {
+                validators.add(new StringValueInValidator(field, entity));
+            }
+            if (field.isAnnotationPresent(DoubleValueIn.class)) {
+                validators.add(new DoubleValueInValidator(field, entity));
+            }
+            if (field.isAnnotationPresent(LongValueIn.class)) {
+                validators.add(new LongValueInValidator(field, entity));
+            }
+            if (field.isAnnotationPresent(IntValueIn.class)) {
+                validators.add(new IntegerValueInValidator(field, entity));
             }
 
             if (field.isAnnotationPresent(CustomValidate.class)) {

@@ -11,16 +11,20 @@ import techcr.utility.entityvalidator.type.notation.ConditionRule;
 import techcr.utility.entityvalidator.type.notation.ConditionValidation;
 import techcr.utility.entityvalidator.type.notation.Constant;
 import techcr.utility.entityvalidator.type.notation.CustomCollectionType;
+import techcr.utility.entityvalidator.type.notation.DoubleValueIn;
 import techcr.utility.entityvalidator.type.notation.EntityField;
 import techcr.utility.entityvalidator.type.notation.EnumType;
+import techcr.utility.entityvalidator.type.notation.IntValueIn;
 import techcr.utility.entityvalidator.type.notation.Length;
 import techcr.utility.entityvalidator.type.notation.LengthBetween;
+import techcr.utility.entityvalidator.type.notation.LongValueIn;
 import techcr.utility.entityvalidator.type.notation.Mandatory;
 import techcr.utility.entityvalidator.type.notation.NotEmpty;
 import techcr.utility.entityvalidator.type.notation.NumberField;
 import techcr.utility.entityvalidator.type.notation.NumberFormat;
 import techcr.utility.entityvalidator.type.notation.Range;
 import techcr.utility.entityvalidator.type.notation.Regex;
+import techcr.utility.entityvalidator.type.notation.StringValueIn;
 import techcr.utility.entityvalidator.type.notation.ValidatorFieldDescription;
 
 @ConditionValidation(
@@ -156,6 +160,14 @@ public class FieldTest {
     @EnumType(clazz = techcr.utility.entityvalidator.entity.TestEnum.class, notEqualTo = 3)
     private techcr.utility.entityvalidator.entity.TestEnum invalidIndex;
 
+    @StringValueIn(values = {"A", "AB"})
+    private String stringValueIn;
+    @IntValueIn(values = {1, 2})
+    private Integer intValueIn;
+    @LongValueIn(values = {1, 3})
+    private Long longValueIn;
+    @DoubleValueIn(values = {1.0, 3.2})
+    private Double doubleValueIn;
 
     //Getters Setters
 
@@ -509,5 +521,37 @@ public class FieldTest {
 
     public void setInvalidIndex(techcr.utility.entityvalidator.entity.TestEnum invalidIndex) {
         this.invalidIndex = invalidIndex;
+    }
+
+    public String getStringValueIn() {
+        return stringValueIn;
+    }
+
+    public void setStringValueIn(String stringValueIn) {
+        this.stringValueIn = stringValueIn;
+    }
+
+    public Integer getIntValueIn() {
+        return intValueIn;
+    }
+
+    public void setIntValueIn(Integer intValueIn) {
+        this.intValueIn = intValueIn;
+    }
+
+    public Long getLongValueIn() {
+        return longValueIn;
+    }
+
+    public void setLongValueIn(Long longValueIn) {
+        this.longValueIn = longValueIn;
+    }
+
+    public Double getDoubleValueIn() {
+        return doubleValueIn;
+    }
+
+    public void setDoubleValueIn(Double doubleValueIn) {
+        this.doubleValueIn = doubleValueIn;
     }
 }
